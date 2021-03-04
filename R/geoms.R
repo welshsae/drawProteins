@@ -212,7 +212,7 @@ draw_domains <- function(p,
 # to draw phosphorylation sites on the protein with geom_point()
 draw_phospho <- function(p, data = data,
                         size = 2,
-                        fill = "yellow",
+                        fill = "red",
                         show.legend = FALSE){
     begin=end=description=NULL
     p <- p + ggplot2::geom_point(data = drawProteins::phospho_site_info(data),
