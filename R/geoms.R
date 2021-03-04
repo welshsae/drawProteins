@@ -246,6 +246,23 @@ draw_points <- function(p, data = data,
 }
 
 
+### draw_poopoo
+# just a test to see if I can just add a new function here and it will work 
+draw_poopoo <- function(p, data = data,
+                        size = 2,
+                        fill = "red",
+                        show.legend = FALSE){
+    begin=end=description=NULL
+    p <- p + ggplot2::geom_point(data = drawProteins::phospho_site_info(data),
+                                ggplot2::aes(x = begin,
+                        y = order+0.25),
+                        shape = 21,
+                        colour = "black",
+                        fill = fill,
+                        size = size,
+                        show.legend = show.legend)
+    return(p)
+}
 
 
 
