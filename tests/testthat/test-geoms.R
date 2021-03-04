@@ -130,6 +130,41 @@ test_that("draw_phospho",{
 
   })
 
+
+# unit tests with draw_poopoo
+context("draw_poopoo")
+
+test_that("draw_poopoo",{
+
+  # load data from the package
+  data("five_rel_data")
+  # five_rel_data was created 20171101 using this code:
+  # "Q04206 Q01201 Q04864 P19838 Q00653" %>%
+  #   drawProteins::get_features() %>%
+  #   drawProteins::feature_to_dataframe() ->
+  #   five_rel_data
+
+  # five_rel_data is a dataframe - 320 obs of 9 variables.
+  p <- draw_canvas(five_rel_data)
+  p <- draw_chains(p, five_rel_data)
+  p <- draw_poopoo(p, five_rel_data)
+
+  # p is a ggplot object and as such is a list of 9
+  expect_equal(mode(p), "list")
+  expect_equal(length(p), 9)
+
+  # p should have three layers at this point
+  expect_equal(length(p$layers), 3)
+  # two from draw_chains and one from draw_phospho
+  # layers, 3 and 4 added by draw_domains
+  expect_equal(class(p$layers[[3]]$geom)[1], "GeomPoint")
+
+  # should be 32 phosphorylation sites across data set...
+  expect_equal(32, nrow(p$layers[[3]]$data))
+
+  })
+
+
 # unit tests with draw_motif
 context("draw_motif")
 
@@ -219,6 +254,41 @@ test_that("draw_regions",{
   expect_equal(p$layers[[3]]$data$type[1], "REGION" )
 })
 
+## unit tests with draw_points
+#context("draw_points")
+#
+#test_that("draw_points",{
+#
+#  # load data from the package
+#  data("five_rel_data")
+#  # five_rel_data was created 20171101 using this code:
+#  # "Q04206 Q01201 Q04864 P19838 Q00653" %>%
+#  #   drawProteins::get_features() %>%
+#  #   drawProteins::feature_to_dataframe() ->
+#  #   five_rel_data
+#
+#  # five_rel_data is a dataframe - 320 obs of 9 variables.
+#  p <- draw_canvas(five_rel_data)
+#  p <- draw_chains(p, five_rel_data)
+#  p <- draw_points(p, five_rel_data)
+#
+#  # p is a ggplot object and as such is a list of 9
+#  expect_equal(mode(p), "list")
+#  expect_equal(length(p), 9)
+#
+#  # p should have three layers at this point
+#  expect_equal(length(p$layers), 3)
+#  # two from draw_chains and one from draw_points
+#  # layers, 3 and 4 added by draw_domains
+#  expect_equal(class(p$layers[[3]]$geom)[1], "GeomPoint")
+#
+#  # p$layers[[3]]$data contains the data that was extracted
+#  # dimensions are 6 9
+#  expect_equal(nrow(five_rel_data[five_rel_data$type == "REGION",]),
+#              nrow(p$layers[[3]]$data))
+#  expect_equal(p$layers[[3]]$data$type[1], "REGION" )
+#
+#  })
 
 
 # unit tests with draw_repeat
