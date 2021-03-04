@@ -226,6 +226,27 @@ draw_phospho <- function(p, data = data,
     return(p)
 }
 
+### draw_points
+# so basically the draw_phospho but based on the same calling of "type" as the domains and regions
+
+draw_points <- function(p, data = data,
+                        size = 2,
+                        fill = "yellow",
+                        show.legend = TRUE){
+    begin=end=description=NULL
+    p <- p + ggplot2::geom_point(data= data[data$type == "POINTS",],
+                                ggplot2::aes(x = begin,
+                        y = order+0.25),
+                        shape = 21,
+                        colour = "black",
+                        fill = fill,
+                        size = size,
+                        show.legend = show.legend)
+    return(p)
+}
+
+
+
 
 
 ### draw_regions
